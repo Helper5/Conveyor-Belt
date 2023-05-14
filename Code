@@ -1,0 +1,52 @@
+#include <LiquidCrystal.h>
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+int x = 0;
+int input = A0;
+int state = 0;
+int in1=7;
+int in2=8;
+LiquidCrystal_I2C lcd(0x27, 16, 2); 
+void setup()
+{
+ 
+  pinMode(in1,OUTPUT); 
+  pinMode(in2,OUTPUT);
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print("  object counter ");
+  lcd.setCursor(0, 1);
+  lcd.print(x);
+ 
+}
+void loop()
+{
+  int counter = digitalRead(A0);
+  digitalWrite(in1,HIGH);
+  digitalWrite(in2,LOW);
+  
+  
+if (state == 0)
+  {
+     switch (counter) 
+     {
+  
+       case 1 : state = 1; lcd.setCursor (0, 1);        
+       lcd.print(x);
+        x = x + 1; 
+       break;
+       case 0 : state = 0; break;
+  
+     }
+  }
+  
+if (counter == LOW)  
+  {
+      state = 0;
+  }
+  
+}
+
